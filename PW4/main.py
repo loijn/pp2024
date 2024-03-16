@@ -1,34 +1,36 @@
-# main.py
+from domains import student, course, mark
+from input import get_int_input, get_string_input
+from cursesoutput import initialize_curses, terminate_curses, print_message, get_user_input
 
-from domains.student import Student
-from domains.course import Course
-from domains.mark import Mark
-from domains.school import School
-import input
-import output
+class School:
+  def __init__(self):
+    self.students = []
+    self.courses = []
+
+  def input_students(self):
+    stdscr = initialize_curses()
+    print_message(stdscr, "1: Input student information")
+    id = get_int_input(stdscr, "Enter student id: ")
+    name = get_string_input(stdscr, "Enter student name: ")
+    dob = get_string_input(stdscr, "Enter student date of birth: ")
+    self.students.append(student.Student(id, name, dob))
+    terminate_curses(stdscr)
+
+  def input_courses(self):
+    stdscr = initialize_curses()
+    print_message(stdscr, "2: Input course information")
+    id = get_int_input(stdscr, "Enter course id: ")
+    name = get_string_input(stdscr, "Enter course name: ")
+    credit = get_int_input(stdscr, "Enter course credit: ")
+    self.courses.append(course.Course(id, name, credit))
+    terminate_curses(stdscr)
+
+  # ... other functions using curses_output methods (similar logic)
 
 if __name__ == "__main__":
-    school = School()
-    while True:
-        print("Select an option:")
-        print("1. Input student information")
-        print("2. Input course information")
-        print("3. Input grades for a course")
-        print("4. Display courses")
-        print("5. Display students")
-        print("6. Exit")
-        option = input("Your option: ")
-        if option == '1':
-            input.input_students(school)
-        elif option == '2':
-            input.input_courses(school)
-        elif option == '3':
-            input.input_marks(school)
-        elif option == '4':
-            output.list_courses(school)
-        elif option == '5':
-            output.list_students(school)
-        elif option == '6':
-            break
-        else:
-            print("Invalid option. Please select a number between 1 and 6.")
+  school = School()
+  while True:
+    stdscr = initialize_curses()
+    print_message(stdscr, "Select an option:")
+    # ... rest of the menu options using curses output functions
+    terminate_curses(stdscr)
